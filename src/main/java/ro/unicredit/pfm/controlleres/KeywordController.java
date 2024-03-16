@@ -1,7 +1,6 @@
 package ro.unicredit.pfm.controlleres;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.unicredit.pfm.services.KeywordService;
 import ro.unicredit.pfm.services.dtos.requests.RequestKeywordDto;
@@ -9,7 +8,7 @@ import ro.unicredit.pfm.services.dtos.responses.ResponseKeywordDto;
 
 import java.util.List;
 
-@Controller
+@RestController
 @AllArgsConstructor
 @RequestMapping("/keywords")
 public class KeywordController {
