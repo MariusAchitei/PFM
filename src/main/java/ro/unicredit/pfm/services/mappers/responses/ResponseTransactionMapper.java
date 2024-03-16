@@ -4,8 +4,11 @@ import org.mapstruct.Mapper;
 import ro.unicredit.pfm.entities.Transaction;
 import ro.unicredit.pfm.services.dtos.responses.ResponseTransactionDto;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ResponseTransactionMapper {
     Transaction toEntity(ResponseTransactionDto responseTransactionDto);
     ResponseTransactionDto toDto(Transaction transaction);
+    List<ResponseTransactionDto> toDto(List<Transaction> transaction);
 }

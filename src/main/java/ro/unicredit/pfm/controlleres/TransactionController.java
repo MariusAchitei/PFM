@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ro.unicredit.pfm.entities.Transaction;
 import ro.unicredit.pfm.services.TransactionService;
+import ro.unicredit.pfm.services.dtos.requests.RequestTransactionDto;
 import ro.unicredit.pfm.services.dtos.responses.ResponseTransactionDto;
 
 import java.util.List;
@@ -15,27 +16,27 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping
-    public List<ResponseTransactionDto> getAll(){
-        return transactionService.findAllTransactions();
+    public List<ResponseTransactionDto> findAll(){
+        return transactionService.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseTransactionDto getTransactionById(@PathVariable Long id){
-        return transactionService.findTransactionById(id);
+        return transactionService.findById(id);
     }
 
     @PostMapping
-    public ResponseTransactionDto saveTransaction(Transaction transaction){
-        return transactionService.saveTransaction(transaction);
+    public ResponseTransactionDto save(@RequestBody RequestTransactionDto requestTransactionDto){
+        return transactionService.save(requestTransactionDto);
     }
 
     @PutMapping("/{id}")
-    public void updateTransaction(@PathVariable Long id, @RequestBody ResponseTransactionDto responseTransactionDto){
-        transactionService.updateTransaction(id, responseTransactionDto);
+    public ResponseTransactionDto updateTransaction(@PathVariable Long id, @RequestBody RequestTransactionDto requestTransactionDto){
+        return transactionService.update(id, requestTransactionDto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTransaction(@PathVariable Long id){
-        transactionService.deleteTransaction(id);
+    public ResponseTransactionDto deleteTransaction(@PathVariable Long id){
+        return transactionService.deleteById(id);
     }
 }
