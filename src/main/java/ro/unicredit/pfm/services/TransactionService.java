@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.unicredit.pfm.entities.Transaction;
+import ro.unicredit.pfm.repositories.CategoryRepository;
+import ro.unicredit.pfm.repositories.KeywordRepository;
 import ro.unicredit.pfm.repositories.TransactionRepository;
 import ro.unicredit.pfm.services.dtos.TransactionDto;
 import ro.unicredit.pfm.services.mappers.TransactionMapper;
@@ -15,6 +17,8 @@ import java.util.List;
 public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
+    private final CategoryRepository categoryRepository;
+    private final KeywordRepository keywordRepository;
 
     public List<TransactionDto> findAllTransactions(){
         return transactionRepository.findAll().stream().map(transaction -> transactionMapper.toDto(transaction)).toList();
@@ -36,17 +40,18 @@ public class TransactionService {
         transactionRepository.deleteById(id);
     }
 
-    public void updateTransaction(Long id, Transaction transaction){
+    public void updateTransaction(Long id, TransactionDto transactionDto){
         Transaction existingTransaction = transactionRepository.findById(id).orElse(null);
-        existingTransaction.setCategory(transaction.getCategory());
-        existingTransaction.setAmount(transaction.getAmount());
-        existingTransaction.setDate(transaction.getDate());
-        existingTransaction.setDescription(transaction.getDescription());
-        existingTransaction.setKeyword(transaction.getKeyword());
-        if (transaction.getParent() != null) {
-            existingTransaction.setParent(transaction.getParent());
+        existingTransaction.setCategory(categoryRepository.findById(transactionDto.getCategoryId()).orElse(null));
+        existingTransaction.setKeyword(keywordRepository.findById(transactionDto.getKeywordId()).orElse(null));
+
+        existingTransaction.setAmount(transactionDto.getAmount());
+        existingTransaction.setDate(transactionDto.getDate());
+        existingTransaction.setDescription(transactionDto.getDescription());
+        if (transactionDto.getParentId() != null) {
+            existingTransaction.setParent(transactionRepository.findById(transactionDto.getParentId()).orElse(null));
         }
-        transactionRepository.save(transaction);
+        transactionRepository.save(existingTransaction);
     }
 }
 

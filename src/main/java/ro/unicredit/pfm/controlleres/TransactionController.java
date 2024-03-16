@@ -29,8 +29,8 @@ public class TransactionController {
     }
 
     @PutMapping("/{id}")
-    public void updateTransaction(@PathVariable Long id,@RequestBody Transaction transaction){
-        transactionService.updateTransaction(id, transaction);
+    public void updateTransaction(@PathVariable Long id,@RequestBody TransactionDto transactionDto){
+        transactionService.updateTransaction(id, transactionDto);
     }
 
     @DeleteMapping("/{id}")
