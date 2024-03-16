@@ -3,6 +3,7 @@ package ro.unicredit.pfm.services;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ro.unicredit.pfm.entities.Keyword;
+import ro.unicredit.pfm.exceptions.NotFoundException;
 import ro.unicredit.pfm.repositories.KeywordRepository;
 
 import java.util.List;
@@ -14,8 +15,8 @@ import java.util.Optional;
 public class KeywordService {
     private final KeywordRepository keywordRepository;
 
-    public Optional<Keyword> findById(Long id) {
-        return keywordRepository.findById(id);
+    public Keyword findById(Long id) {
+        return keywordRepository.findById(id).orElseThrow(() -> new NotFoundException("Keyword not found."));
     }
 
     public List<Keyword> findAll() {
@@ -33,7 +34,7 @@ public class KeywordService {
 
     public Keyword update(Keyword keyword) {
         Objects.requireNonNull(keyword);
-        Optional<Keyword> keywordOptional = findById(keyword.getId());
+        Optional<Keyword> keywordOptional = keywordRepository.findById(keyword.getId());
         if(keywordOptional.isEmpty()) {
             return save(keyword);
         }
