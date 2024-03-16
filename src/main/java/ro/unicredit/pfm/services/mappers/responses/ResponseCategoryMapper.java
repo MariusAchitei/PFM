@@ -1,7 +1,7 @@
 package ro.unicredit.pfm.services.mappers.responses;
 
 import org.mapstruct.Mapper;
-import ro.unicredit.pfm.entities.Category;
+import ro.unicredit.pfm.repositories.entities.Category;
 import ro.unicredit.pfm.services.dtos.responses.ResponseCategoryDto;
 
 import java.util.List;

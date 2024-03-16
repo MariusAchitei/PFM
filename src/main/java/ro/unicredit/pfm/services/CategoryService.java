@@ -1,10 +1,8 @@
 package ro.unicredit.pfm.services;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.unicredit.pfm.entities.Category;
-import ro.unicredit.pfm.entities.Keyword;
+import ro.unicredit.pfm.repositories.entities.Category;
 import ro.unicredit.pfm.exceptions.NotFoundException;
 import ro.unicredit.pfm.repositories.CategoryRepository;
 import ro.unicredit.pfm.services.dtos.requests.RequestCategoryDto;
@@ -13,8 +11,6 @@ import ro.unicredit.pfm.services.mappers.requests.RequestCategoryMapper;
 import ro.unicredit.pfm.services.mappers.responses.ResponseCategoryMapper;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor

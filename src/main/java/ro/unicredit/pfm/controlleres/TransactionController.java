@@ -2,7 +2,6 @@ package ro.unicredit.pfm.controlleres;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ro.unicredit.pfm.entities.Transaction;
 import ro.unicredit.pfm.services.TransactionService;
 import ro.unicredit.pfm.services.dtos.requests.RequestTransactionDto;
 import ro.unicredit.pfm.services.dtos.responses.ResponseTransactionDto;

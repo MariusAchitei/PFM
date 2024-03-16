@@ -1,10 +1,9 @@
-package ro.unicredit.pfm.entities;
+package ro.unicredit.pfm.repositories.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity

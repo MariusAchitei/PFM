@@ -1,4 +1,4 @@
-package ro.unicredit.pfm.entities;
+package ro.unicredit.pfm.repositories.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;

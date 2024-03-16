@@ -1,7 +1,7 @@
 package ro.unicredit.pfm.services.mappers.responses;
 
 import org.mapstruct.Mapper;
-import ro.unicredit.pfm.entities.Transaction;
+import ro.unicredit.pfm.repositories.entities.Transaction;
 import ro.unicredit.pfm.services.dtos.responses.ResponseTransactionDto;
 
 import java.util.List;

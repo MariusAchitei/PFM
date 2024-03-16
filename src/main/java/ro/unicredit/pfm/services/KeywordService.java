@@ -2,8 +2,8 @@ package ro.unicredit.pfm.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ro.unicredit.pfm.entities.Category;
-import ro.unicredit.pfm.entities.Keyword;
+import ro.unicredit.pfm.repositories.entities.Category;
+import ro.unicredit.pfm.repositories.entities.Keyword;
 import ro.unicredit.pfm.exceptions.NotFoundException;
 import ro.unicredit.pfm.repositories.CategoryRepository;
 import ro.unicredit.pfm.repositories.KeywordRepository;
