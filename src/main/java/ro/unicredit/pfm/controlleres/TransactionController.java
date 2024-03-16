@@ -1,11 +1,8 @@
 package ro.unicredit.pfm.controlleres;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ro.unicredit.pfm.entities.Transaction;
-import ro.unicredit.pfm.repositories.TransactionRepository;
 import ro.unicredit.pfm.services.TransactionService;
 
 import java.util.List;
@@ -13,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/transactions")
 @AllArgsConstructor
-public class TransactionConstroller {
+public class TransactionController {
     private final TransactionService transactionService;
     @GetMapping
     public List<Transaction> getAll(){
