@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.unicredit.pfm.entities.Transaction;
 import ro.unicredit.pfm.repositories.TransactionRepository;
+import ro.unicredit.pfm.services.dtos.TransactionDto;
+import ro.unicredit.pfm.services.mappers.TransactionMapper;
 
 import java.util.List;
 
@@ -12,17 +14,22 @@ import java.util.List;
 @AllArgsConstructor
 public class TransactionService {
     private final TransactionRepository transactionRepository;
+    private final TransactionMapper transactionMapper;
 
-    public List<Transaction> findAllTransactions(){
-        return transactionRepository.findAll();
+    public List<TransactionDto> findAllTransactions(){
+        return transactionRepository.findAll().stream().map(transaction -> transactionMapper.toDto(transaction)).toList();
     }
 
-    public Transaction findTransactionById(Long id){
-        return transactionRepository.findById(id).orElse(null);
+    public TransactionDto findTransactionById(Long id){
+        Transaction transaction = transactionRepository.findById(id).orElse(null);
+        if (transaction == null) {
+            return null;
+        }
+        return transactionMapper.toDto(transaction);
     }
 
-    public Transaction saveTransaction(Transaction transaction){
-        return transactionRepository.save(transaction);
+    public TransactionDto saveTransaction(Transaction transaction){
+        return transactionMapper.toDto(transactionRepository.save(transaction));
     }
 
     public void deleteTransaction(Long id){
