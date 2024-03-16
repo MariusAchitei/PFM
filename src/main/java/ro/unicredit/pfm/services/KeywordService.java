@@ -23,7 +23,7 @@ public class KeywordService {
     private final RequestKeywordMapper requestKeywordMapper;
 
     public ResponseKeywordDto findById(Long id) {
-        Keyword keyword = keywordRepository.findById(id).orElseThrow(() -> new NotFoundException("Keyword not found."));
+        Keyword keyword = keywordRepository.findById(id).orElseThrow(() -> new NotFoundException("Keyword with id " + id + " not found."));
         return responseKeywordMapper.toDto(keyword);
     }
 

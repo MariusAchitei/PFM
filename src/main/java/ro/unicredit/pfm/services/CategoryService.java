@@ -28,7 +28,8 @@ public class CategoryService {
     }
 
     public ResponseCategoryDto findById(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Category not found."));
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Category with id " + id + " not found."));
         return responseCategoryMapper.toDto(category);
     }
 
@@ -45,7 +46,8 @@ public class CategoryService {
     }
 
     public ResponseCategoryDto update(Long id, RequestCategoryDto requestCategoryDto) {
-        Category categoryToUpdate =  categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Update failed. Category not found."));
+        Category categoryToUpdate =  categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Update failed. Category not found."));
         Category categoryParent = categoryRepository.findById(id).orElse(null);
         categoryToUpdate.setValue(requestCategoryDto.getValue());
         categoryToUpdate.setParent(categoryParent);

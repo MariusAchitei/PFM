@@ -30,7 +30,8 @@ public class TransactionService {
     }
 
     public ResponseTransactionDto findById(Long id){
-        Transaction transaction = transactionRepository.findById(id).orElseThrow(() -> new NotFoundException("Transaction not found."));
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Transaction with id " + id + " not found."));
         return responseTransactionMapper.toDto(transaction);
     }
 
@@ -47,7 +48,8 @@ public class TransactionService {
     }
 
     public ResponseTransactionDto update(Long id, RequestTransactionDto requestTransactionDto){
-        Transaction existingTransaction = transactionRepository.findById(id).orElseThrow(() -> new NotFoundException("Update failed. Transaction not found."));
+        Transaction existingTransaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Update failed. Transaction not found."));
         Category associatedCategory = categoryRepository.findById(existingTransaction.getCategory().getId()).orElse(null);
         Keyword associatedKeyword = keywordRepository.findById(existingTransaction.getKeyword().getId()).orElse(null);
         Transaction parentTransaction = transactionRepository.findById(id).orElse(null);
