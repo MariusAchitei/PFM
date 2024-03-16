@@ -2,9 +2,7 @@ package ro.unicredit.pfm.controlleres;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ro.unicredit.pfm.entities.Transaction;
 import ro.unicredit.pfm.repositories.TransactionRepository;
 import ro.unicredit.pfm.services.TransactionService;
@@ -20,4 +18,23 @@ public class TransactionConstroller {
         return transactionService.findAllTransactions();
     }
 
+    @GetMapping("/{id}")
+    public Transaction getTransactionById(Long id){
+        return transactionService.findTransactionById(id);
+    }
+
+    @PostMapping
+    public Transaction saveTransaction(Transaction transaction){
+        return transactionService.saveTransaction(transaction);
+    }
+
+    @PutMapping("/{id}")
+    public void updateTransaction(Long id, Transaction transaction){
+        transactionService.updateTransaction(id, transaction);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTransaction(Long id){
+        transactionService.deleteTransaction(id);
+    }
 }
