@@ -5,7 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.unicredit.pfm.entities.Category;
 import ro.unicredit.pfm.entities.Keyword;
+import ro.unicredit.pfm.exceptions.NotFoundException;
 import ro.unicredit.pfm.repositories.CategoryRepository;
+import ro.unicredit.pfm.services.dtos.requests.RequestCategoryDto;
+import ro.unicredit.pfm.services.dtos.responses.ResponseCategoryDto;
+import ro.unicredit.pfm.services.mappers.requests.RequestCategoryMapper;
+import ro.unicredit.pfm.services.mappers.responses.ResponseCategoryMapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,33 +20,35 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final RequestCategoryMapper requestCategoryMapper;
+    private final ResponseCategoryMapper responseCategoryMapper;
 
-    public List<Category> findAll(){
-        return categoryRepository.findAll();
+    public List<ResponseCategoryDto> findAll(){
+        return responseCategoryMapper.toDto(categoryRepository.findAll());
     }
 
-    public Optional<Category> findById(Long id) {
-        return categoryRepository.findById(id);
+    public ResponseCategoryDto findById(Long id) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Category not found."));
+        return responseCategoryMapper.toDto(category);
     }
 
-    public Category save(Category category) {
-        return categoryRepository.save(category);
+    public ResponseCategoryDto save(RequestCategoryDto requestCategoryDto) {
+        Category category = requestCategoryMapper.toEntity(requestCategoryDto);
+        Category savedCategory = categoryRepository.save(category);
+        return responseCategoryMapper.toDto(savedCategory);
     }
 
-    public Category delete(Category category) {
-        categoryRepository.delete(category);
-        return category;
+    public ResponseCategoryDto deleteById(Long id) {
+        ResponseCategoryDto responseCategoryDto = findById(id);
+        categoryRepository.deleteById(id);
+        return responseCategoryDto;
     }
 
-    public Category update(Category category) {
-        Objects.requireNonNull(category);
-        Optional<Category> categoryOptional = findById(category.getId());
-        if(categoryOptional.isEmpty()) {
-            return save(category);
-        }
-        Category updatedCategory = categoryOptional.get();
-        updatedCategory.setValue(category.getValue());
-        updatedCategory.setParent(category.getParent());
-        return save(updatedCategory);
+    public ResponseCategoryDto update(Long id, RequestCategoryDto requestCategoryDto) {
+        Category categoryToUpdate =  categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Update failed. Category not found."));
+        Category categoryParent = categoryRepository.findById(id).orElse(null);
+        categoryToUpdate.setValue(requestCategoryDto.getValue());
+        categoryToUpdate.setParent(categoryParent);
+        return save(requestCategoryMapper.toDto(categoryToUpdate));
     }
 }

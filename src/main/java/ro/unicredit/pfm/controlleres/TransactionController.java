@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TransactionController {
     private final TransactionService transactionService;
+
     @GetMapping
     public List<ResponseTransactionDto> getAll(){
         return transactionService.findAllTransactions();
