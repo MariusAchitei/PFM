@@ -30,7 +30,7 @@ public class TransactionController {
     }
 
     @PutMapping("/{id}")
-    public void updateTransaction(@PathVariable Long id,@RequestBody ResponseTransactionDto responseTransactionDto){
+    public void updateTransaction(@PathVariable Long id, @RequestBody ResponseTransactionDto responseTransactionDto){
         transactionService.updateTransaction(id, responseTransactionDto);
     }
 
