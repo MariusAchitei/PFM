@@ -1,14 +1,13 @@
 package ro.unicredit.pfm.services;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.unicredit.pfm.entities.Transaction;
 import ro.unicredit.pfm.repositories.CategoryRepository;
 import ro.unicredit.pfm.repositories.KeywordRepository;
 import ro.unicredit.pfm.repositories.TransactionRepository;
-import ro.unicredit.pfm.services.dtos.TransactionDto;
-import ro.unicredit.pfm.services.mappers.TransactionMapper;
+import ro.unicredit.pfm.services.dtos.responses.ResponseTransactionDto;
+import ro.unicredit.pfm.services.mappers.responses.ResponseTransactionMapper;
 
 import java.util.List;
 
@@ -16,40 +15,40 @@ import java.util.List;
 @AllArgsConstructor
 public class TransactionService {
     private final TransactionRepository transactionRepository;
-    private final TransactionMapper transactionMapper;
+    private final ResponseTransactionMapper responseTransactionMapper;
     private final CategoryRepository categoryRepository;
     private final KeywordRepository keywordRepository;
 
-    public List<TransactionDto> findAllTransactions(){
-        return transactionRepository.findAll().stream().map(transaction -> transactionMapper.toDto(transaction)).toList();
+    public List<ResponseTransactionDto> findAllTransactions(){
+        return transactionRepository.findAll().stream().map(transaction -> responseTransactionMapper.toDto(transaction)).toList();
     }
 
-    public TransactionDto findTransactionById(Long id){
+    public ResponseTransactionDto findTransactionById(Long id){
         Transaction transaction = transactionRepository.findById(id).orElse(null);
         if (transaction == null) {
             return null;
         }
-        return transactionMapper.toDto(transaction);
+        return responseTransactionMapper.toDto(transaction);
     }
 
-    public TransactionDto saveTransaction(Transaction transaction){
-        return transactionMapper.toDto(transactionRepository.save(transaction));
+    public ResponseTransactionDto saveTransaction(Transaction transaction){
+        return responseTransactionMapper.toDto(transactionRepository.save(transaction));
     }
 
     public void deleteTransaction(Long id){
         transactionRepository.deleteById(id);
     }
 
-    public void updateTransaction(Long id, TransactionDto transactionDto){
+    public void updateTransaction(Long id, ResponseTransactionDto responseTransactionDto){
         Transaction existingTransaction = transactionRepository.findById(id).orElse(null);
-        existingTransaction.setCategory(categoryRepository.findById(transactionDto.getCategoryId()).orElse(null));
-        existingTransaction.setKeyword(keywordRepository.findById(transactionDto.getKeywordId()).orElse(null));
+        existingTransaction.setCategory(categoryRepository.findById(responseTransactionDto.getCategoryId()).orElse(null));
+        existingTransaction.setKeyword(keywordRepository.findById(responseTransactionDto.getKeywordId()).orElse(null));
 
-        existingTransaction.setAmount(transactionDto.getAmount());
-        existingTransaction.setDate(transactionDto.getDate());
-        existingTransaction.setDescription(transactionDto.getDescription());
-        if (transactionDto.getParentId() != null) {
-            existingTransaction.setParent(transactionRepository.findById(transactionDto.getParentId()).orElse(null));
+        existingTransaction.setAmount(responseTransactionDto.getAmount());
+        existingTransaction.setDate(responseTransactionDto.getDate());
+        existingTransaction.setDescription(responseTransactionDto.getDescription());
+        if (responseTransactionDto.getParentId() != null) {
+            existingTransaction.setParent(transactionRepository.findById(responseTransactionDto.getParentId()).orElse(null));
         }
         transactionRepository.save(existingTransaction);
     }

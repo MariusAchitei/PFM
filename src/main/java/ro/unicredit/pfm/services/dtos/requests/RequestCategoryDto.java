@@ -1,12 +1,11 @@
-package ro.unicredit.pfm.services.dtos;
+package ro.unicredit.pfm.services.dtos.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CategoryDto {
-    private Long id;
+public class RequestCategoryDto {
     private String value;
     private Long parentId;
 }

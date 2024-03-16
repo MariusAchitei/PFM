@@ -2,45 +2,53 @@ package ro.unicredit.pfm.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ro.unicredit.pfm.entities.Category;
 import ro.unicredit.pfm.entities.Keyword;
 import ro.unicredit.pfm.exceptions.NotFoundException;
+import ro.unicredit.pfm.repositories.CategoryRepository;
 import ro.unicredit.pfm.repositories.KeywordRepository;
+import ro.unicredit.pfm.services.dtos.requests.RequestKeywordDto;
+import ro.unicredit.pfm.services.dtos.responses.ResponseKeywordDto;
+import ro.unicredit.pfm.services.mappers.requests.RequestKeywordMapper;
+import ro.unicredit.pfm.services.mappers.responses.ResponseKeywordMapper;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class KeywordService {
     private final KeywordRepository keywordRepository;
+    private final CategoryRepository categoryRepository;
+    private final ResponseKeywordMapper responseKeywordMapper;
+    private final RequestKeywordMapper requestKeywordMapper;
 
-    public Keyword findById(Long id) {
-        return keywordRepository.findById(id).orElseThrow(() -> new NotFoundException("Keyword not found."));
+    public ResponseKeywordDto findById(Long id) {
+        Keyword keyword = keywordRepository.findById(id).orElseThrow(() -> new NotFoundException("Keyword not found."));
+        return responseKeywordMapper.toDto(keyword);
     }
 
-    public List<Keyword> findAll() {
-        return keywordRepository.findAll();
+    public List<ResponseKeywordDto> findAll() {
+        List<Keyword> keywords = keywordRepository.findAll();
+        return responseKeywordMapper.toKeywordDtoList(keywords);
     }
 
-    public Keyword save(Keyword keyword) {
-        return keywordRepository.save(keyword);
+    public ResponseKeywordDto save(RequestKeywordDto requestKeywordDto) {
+        Keyword keywordToSave = requestKeywordMapper.toEntity(requestKeywordDto);
+        return responseKeywordMapper.toDto(keywordToSave);
     }
 
-    public Keyword delete(Keyword keyword) {
-        keywordRepository.delete(keyword);
-        return keyword;
+    public ResponseKeywordDto deleteById(Long id) {
+        ResponseKeywordDto keywordToDelete = findById(id);
+        keywordRepository.deleteById(id);
+        return keywordToDelete;
     }
 
-    public Keyword update(Keyword keyword) {
-        Objects.requireNonNull(keyword);
-        Optional<Keyword> keywordOptional = keywordRepository.findById(keyword.getId());
-        if(keywordOptional.isEmpty()) {
-            return save(keyword);
-        }
-        Keyword updatedKeyword = keywordOptional.get();
-        updatedKeyword.setCategory(keyword.getCategory());
-        updatedKeyword.setValue(keyword.getValue());
-        return save(updatedKeyword);
+    public ResponseKeywordDto update(Long keywordId, RequestKeywordDto requestKeywordDto) {
+        Keyword keywordToUpdate =  keywordRepository.findById(keywordId).orElseThrow(() -> new NotFoundException("Update failed. Keyword not found."));
+        Category category = categoryRepository.findById(requestKeywordDto.getCategoryId()).orElse(null);
+        keywordToUpdate.setValue(requestKeywordDto.getValue());
+        keywordToUpdate.setCategory(category);
+        Keyword savedKeyword = keywordRepository.save(keywordToUpdate);
+        return responseKeywordMapper.toDto(savedKeyword);
     }
 }

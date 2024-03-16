@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ro.unicredit.pfm.entities.Transaction;
 import ro.unicredit.pfm.services.TransactionService;
-import ro.unicredit.pfm.services.dtos.TransactionDto;
+import ro.unicredit.pfm.services.dtos.responses.ResponseTransactionDto;
 
 import java.util.List;
 
@@ -14,23 +14,23 @@ import java.util.List;
 public class TransactionController {
     private final TransactionService transactionService;
     @GetMapping
-    public List<TransactionDto> getAll(){
+    public List<ResponseTransactionDto> getAll(){
         return transactionService.findAllTransactions();
     }
 
     @GetMapping("/{id}")
-    public TransactionDto getTransactionById(@PathVariable Long id){
+    public ResponseTransactionDto getTransactionById(@PathVariable Long id){
         return transactionService.findTransactionById(id);
     }
 
     @PostMapping
-    public TransactionDto saveTransaction(Transaction transaction){
+    public ResponseTransactionDto saveTransaction(Transaction transaction){
         return transactionService.saveTransaction(transaction);
     }
 
     @PutMapping("/{id}")
-    public void updateTransaction(@PathVariable Long id,@RequestBody TransactionDto transactionDto){
-        transactionService.updateTransaction(id, transactionDto);
+    public void updateTransaction(@PathVariable Long id,@RequestBody ResponseTransactionDto responseTransactionDto){
+        transactionService.updateTransaction(id, responseTransactionDto);
     }
 
     @DeleteMapping("/{id}")

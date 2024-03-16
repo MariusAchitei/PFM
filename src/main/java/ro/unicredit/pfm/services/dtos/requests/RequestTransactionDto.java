@@ -1,4 +1,4 @@
-package ro.unicredit.pfm.services.dtos;
+package ro.unicredit.pfm.services.dtos.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,13 +8,11 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class TransactionDto {
-    private Long id;
+public class RequestTransactionDto {
     private String description;
     private Date date;
     private BigDecimal amount;
     private Long categoryId;
     private Long keywordId;
     private Long parentId;
-
 }
