@@ -8,5 +8,5 @@ import lombok.Data;
 public class ResponseCategoryDto {
     private Long id;
     private String value;
-    private Long parentId;
+    private ResponseCategoryDto parent;
 }

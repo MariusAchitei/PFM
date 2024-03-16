@@ -50,15 +50,31 @@ public class TransactionService {
     public ResponseTransactionDto update(Long id, RequestTransactionDto requestTransactionDto){
         Transaction existingTransaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Update failed. Transaction not found."));
-        Category associatedCategory = categoryRepository.findById(existingTransaction.getCategory().getId()).orElse(null);
-        Keyword associatedKeyword = keywordRepository.findById(existingTransaction.getKeyword().getId()).orElse(null);
-        Transaction parentTransaction = transactionRepository.findById(id).orElse(null);
+        Category associatedCategory;
+        if(requestTransactionDto.getCategoryId() != null) {
+            associatedCategory = categoryRepository.findById(requestTransactionDto.getCategoryId()).orElse(null);
+        } else {
+            associatedCategory = existingTransaction.getCategory();
+        }
+        Keyword associatedKeyword;
+        if(requestTransactionDto.getKeywordId() != null) {
+            associatedKeyword = keywordRepository.findById(requestTransactionDto.getKeywordId()).orElse(null);
+        } else {
+            associatedKeyword = existingTransaction.getKeyword();
+        }
+        Transaction associatedParent;
+        if(requestTransactionDto.getParentId() != null) {
+            associatedParent = transactionRepository.findById(requestTransactionDto.getParentId()).orElse(null);
+        } else {
+            associatedParent = existingTransaction.getParent();
+        }
+
         existingTransaction.setCategory(associatedCategory);
         existingTransaction.setKeyword(associatedKeyword);
         existingTransaction.setAmount(requestTransactionDto.getAmount());
         existingTransaction.setDate(requestTransactionDto.getDate());
         existingTransaction.setDescription(requestTransactionDto.getDescription());
-        existingTransaction.setParent(parentTransaction);
+        existingTransaction.setParent(associatedParent);
         Transaction updatedTransaction = transactionRepository.save(existingTransaction);
         return responseTransactionMapper.toDto(updatedTransaction);
     }

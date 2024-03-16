@@ -49,4 +49,9 @@ public class CategoryService {
         categoryToUpdate.setParent(categoryParent);
         return save(requestCategoryMapper.toDto(categoryToUpdate));
     }
+
+    public List<ResponseCategoryDto> findByKeywordsValueContainedIn(String text) {
+        List<Category> categories = categoryRepository.findByKeywordsValueContainedIn(text);
+        return responseCategoryMapper.toDto(categories);
+    }
 }

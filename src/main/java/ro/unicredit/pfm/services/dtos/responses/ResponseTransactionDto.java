@@ -13,8 +13,7 @@ public class ResponseTransactionDto {
     private String description;
     private Date date;
     private BigDecimal amount;
-    private Long categoryId;
-    private Long keywordId;
-    private Long parentId;
-
+    private ResponseCategoryDto category;
+    private ResponseKeywordDto keyword;
+    private ResponseTransactionDto parent;
 }

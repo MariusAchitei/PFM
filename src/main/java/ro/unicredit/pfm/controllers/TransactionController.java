@@ -1,4 +1,4 @@
-package ro.unicredit.pfm.controlleres;
+package ro.unicredit.pfm.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

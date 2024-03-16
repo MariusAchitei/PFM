@@ -1,4 +1,4 @@
-package ro.unicredit.pfm.controlleres;
+package ro.unicredit.pfm.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +32,10 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public ResponseCategoryDto deleteById(@PathVariable Long id) {
         return categoryService.deleteById(id);
+    }
+
+    @GetMapping("/keywords")
+    public List<ResponseCategoryDto> findByKeywordsValueContainedIn(@RequestParam String text) {
+        return categoryService.findByKeywordsValueContainedIn(text);
     }
 }

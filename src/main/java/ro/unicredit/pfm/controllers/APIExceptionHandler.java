@@ -1,4 +1,4 @@
-package ro.unicredit.pfm.controlleres;
+package ro.unicredit.pfm.controllers;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,12 +16,14 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = NotFoundException.class)
     protected ResponseEntity<Object> handleNotFoundException(RuntimeException ex, WebRequest request) {
+        ex.printStackTrace();
         return handleExceptionInternal(ex, ex.getMessage() == null ? DEFAULT_NOT_FOUND_MSG
                 : ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler(value = Exception.class)
     protected ResponseEntity<Object> handleUnexpectedException(RuntimeException ex, WebRequest request) {
+        ex.printStackTrace();
         return handleExceptionInternal(ex, DEFAULT_UNEXPECTED_ERROR_MSG, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 }
