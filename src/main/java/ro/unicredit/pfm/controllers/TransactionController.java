@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ro.unicredit.pfm.services.TransactionService;
 import ro.unicredit.pfm.services.dtos.requests.RequestTransactionDto;
+import ro.unicredit.pfm.services.dtos.requests.TransactionSplitDto;
 import ro.unicredit.pfm.services.dtos.responses.ResponseTransactionDto;
 
 import java.util.List;
@@ -37,5 +38,10 @@ public class TransactionController {
     @DeleteMapping("/{id}")
     public ResponseTransactionDto deleteTransaction(@PathVariable Long id){
         return transactionService.deleteById(id);
+    }
+
+    @PostMapping("/split")
+    public void splitTransaction(@RequestBody TransactionSplitDto transactionSplitDto){
+        transactionService.splitTransaction(transactionSplitDto, null);
     }
 }
