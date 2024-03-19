@@ -9,4 +9,6 @@ public class ResponseKeywordDto {
     private Long id;
     private String value;
     private ResponseKeywordDto parent;
+    public Long categoryId;
+
 }

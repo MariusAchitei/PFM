@@ -15,10 +15,13 @@ public class KeywordController {
     private final KeywordService keywordService;
 
     @GetMapping
-    public List<ResponseKeywordDto> findAll() {
-        return keywordService.findAll();
+    public List<ResponseKeywordDto> findAll(@RequestParam List<String> keywords)
+    {
+        if(keywords != null && !keywords.isEmpty())
+            return keywordService.findByValueContainedIn(keywords);
+        else
+            return keywordService.findAll();
     }
-
     @GetMapping("/{id}")
     public ResponseKeywordDto findById(@PathVariable Long id) {
         return keywordService.findById(id);

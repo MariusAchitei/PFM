@@ -51,4 +51,9 @@ public class KeywordService {
         Keyword savedKeyword = keywordRepository.save(keywordToUpdate);
         return responseKeywordMapper.toDto(savedKeyword);
     }
+
+    public List<ResponseKeywordDto> findByValueContainedIn(List<String> keywords) {
+        List<Keyword> keywordsList = keywordRepository.findInTokens(keywords);
+        return responseKeywordMapper.toKeywordDtoList(keywordsList);
+    }
 }
