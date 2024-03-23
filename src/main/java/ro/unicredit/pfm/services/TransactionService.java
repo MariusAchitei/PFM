@@ -48,8 +48,7 @@ public class TransactionService {
         return transactionToDelete;
     }
 
-    public ResponseTransactionDto
-    update(Long id, RequestTransactionDto requestTransactionDto){
+    public ResponseTransactionDto update(Long id, RequestTransactionDto requestTransactionDto){
         Transaction existingTransaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Update failed. Transaction not found."));
         Category associatedCategory;

@@ -23,7 +23,8 @@ public class KeywordService {
     private final RequestKeywordMapper requestKeywordMapper;
 
     public ResponseKeywordDto findById(Long id) {
-        Keyword keyword = keywordRepository.findById(id).orElseThrow(() -> new NotFoundException("Keyword with id " + id + " not found."));
+        Keyword keyword = keywordRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Keyword with id " + id + " not found."));
         return responseKeywordMapper.toDto(keyword);
     }
 
@@ -44,8 +45,10 @@ public class KeywordService {
     }
 
     public ResponseKeywordDto update(Long keywordId, RequestKeywordDto requestKeywordDto) {
-        Keyword keywordToUpdate =  keywordRepository.findById(keywordId).orElseThrow(() -> new NotFoundException("Update failed. Keyword not found."));
-        Category category = categoryRepository.findById(requestKeywordDto.getCategoryId()).orElse(null);
+        Keyword keywordToUpdate =  keywordRepository.findById(keywordId).orElseThrow(
+                () -> new NotFoundException("Update failed. Keyword not found."));
+        Category category = categoryRepository.findById(requestKeywordDto.getCategoryId())
+                .orElse(null);
         keywordToUpdate.setValue(requestKeywordDto.getValue());
         keywordToUpdate.setCategory(category);
         Keyword savedKeyword = keywordRepository.save(keywordToUpdate);

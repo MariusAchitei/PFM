@@ -15,30 +15,30 @@ public class KeywordController {
     private final KeywordService keywordService;
 
     @GetMapping
-    public List<ResponseKeywordDto> findAll(@RequestParam List<String> keywords)
-    {
-        if(keywords != null && !keywords.isEmpty())
+    public List<ResponseKeywordDto> findAll(@RequestParam List<String> keywords) {
+        if (keywords != null && !keywords.isEmpty()) {
             return keywordService.findByValueContainedIn(keywords);
-        else
-            return keywordService.findAll();
+        }
+        return keywordService.findAll();
     }
+
     @GetMapping("/{id}")
     public ResponseKeywordDto findById(@PathVariable Long id) {
         return keywordService.findById(id);
     }
 
-   @DeleteMapping("/{id}")
-   public ResponseKeywordDto deleteById(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseKeywordDto deleteById(@PathVariable Long id) {
         return keywordService.deleteById(id);
-   }
+    }
 
-   @PutMapping("/{id}")
-   public ResponseKeywordDto update(@PathVariable Long id, @RequestBody RequestKeywordDto requestKeywordDto) {
+    @PutMapping("/{id}")
+    public ResponseKeywordDto update(@PathVariable Long id, @RequestBody RequestKeywordDto requestKeywordDto) {
         return keywordService.update(id, requestKeywordDto);
-   }
+    }
 
-   @PostMapping
+    @PostMapping
     public ResponseKeywordDto save(@RequestBody RequestKeywordDto requestKeywordDto) {
         return keywordService.save(requestKeywordDto);
-   }
+    }
 }
